@@ -10,56 +10,55 @@ class Caesar():
     alphabet -- El alfabeto sobre quien se cifra el mensaje.
     key      -- El tamaño del desplazamiento sobre el alfabeto, si es None, se debe de escoger una llave aleatoria, válida.
     """
-    
     def __init__(self, alphabet, key=None):
         self.alphabet=alphabet
         if(key!=None):
             self.key=key%len(alphabet)
         else:
             self.key=random.randint(0,len(alphabet))
-        """
-        Cifra el mensaje recibido como parámetro con el algoritmo de
-        cifrado césar, un desplazamiento sobre el alfabeto predefinido.
-        Parámetro:
-            message -- el mensaje a cifrar.
-        """    
+    """
+    Cifra el mensaje recibido como parámetro con el algoritmo de
+    cifrado césar, un desplazamiento sobre el alfabeto predefinido.
+    Parámetro:
+        message -- el mensaje a cifrar.
+    """    
     def cipher(self, message, flag=None):
-        new_message=""
         dic={}
         for i in range(len(self.alphabet)):
             dic[self.alphabet[i]] = self.alphabet[(i+self.key)%len(self.alphabet)]                             
+        new_message=match(message,dic,self.alphabet,flag)
 
-        for i in range(len(message)):
-            if(flag):
-                if(message[i]==" "):
-                    new_message+=message[i]
-                else:
-                    new_message+=dic[message[i]]
-            else:
-                if(" " in self.alphabet):
-                    new_message+=dic[message[i]]
-                else:    
-                    if(message[i]!=" "):
-                        new_message+=dic[message[i]]
         return new_message
-
+    """
+    Descifra el mensaje recibido como parámetro con el algoritmo de
+    cifrado césar, regresa a texto claro un mensaje previamente cifrado con Cesar
+    Parámetro:
+        message -- el mensaje a cifrar.
+    """
     def decipher(self, criptotext, flag=None):
-
-        new_message=""
         dic={}
         for i in range(len(self.alphabet)):
             dic[self.alphabet[i]] = self.alphabet[(i-self.key)%len(self.alphabet)]
-                              
-        for i in range(len(criptotext)):
-            if(flag):
-                if(criptotext[i]==" "):
-                    new_message+=criptotext[i]
-                else:
-                    new_message+=dic[criptotext[i]]
-            else:
-                if(" " in self.alphabet):
-                    new_message+=dic[criptotext[i]]
-                else:    
-                    if(criptotext[i]!=" "):
-                        new_message+=dic[criptotext[i]]
+        new_message=match(criptotext,dic,self.alphabet,flag)
+
         return new_message
+
+"""
+Funcion auxiliar que recorre un diccionario para hacer match con su valor en el texto que se quiere cifrar, esta funcion
+Sirve de la misma manera tanto en el cifrado como en el descifrado
+"""    
+def match(texto,dic,alphabet,flag):
+    new_message=""
+    for i in range(len(texto)):
+            if(flag):#Se deja el espacio en el mensaje de salida
+                if(texto[i]==" "):
+                    new_message+=texto[i]
+                else:
+                    new_message+=dic[texto[i]]
+            else:
+                if(" " in alphabet):#El caso en el que el espacio sea parte del alfabeto
+                    new_message+=dic[texto[i]]
+                else:    
+                    if(texto[i]!=" "):#Cuando el espacio no es del alfabeto
+                        new_message+=dic[texto[i]]
+    return new_message
