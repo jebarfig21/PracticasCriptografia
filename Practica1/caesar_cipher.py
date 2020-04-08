@@ -1,14 +1,15 @@
 import random #Importamos biblioteca para numeros aleatorios
 
 class Caesar():
-    alphabet=""
-    key=None
 
     """
-    Constructor de clase que tiene como parámetro todos los atributos que necesita el algoritmo de cifrado de César.
-    ParámetroS:
+    Constructor de clase que tiene como parámetro todos los atributos
+    que necesita el algoritmo de cifrado de César.
+   
+    Parámetro:
     alphabet -- El alfabeto sobre quien se cifra el mensaje.
-    key      -- El tamaño del desplazamiento sobre el alfabeto, si es None, se debe de escoger una llave aleatoria, válida.
+    key      -- El tamaño del desplazamiento sobre el alfabeto, si es 
+                None, se debe de escoger una llave aleatoria, válida.
     """
     def __init__(self, alphabet, key=None):
         self.alphabet=alphabet
@@ -26,9 +27,12 @@ class Caesar():
         dic={}
         for i in range(len(self.alphabet)):
             dic[self.alphabet[i]] = self.alphabet[(i+self.key)%len(self.alphabet)]                             
-        new_message=match(message,dic,self.alphabet,flag)
 
+        new_message=match(message,dic,self.alphabet,flag)
+        
         return new_message
+
+
     """
     Descifra el mensaje recibido como parámetro con el algoritmo de
     cifrado césar, regresa a texto claro un mensaje previamente cifrado con Cesar
@@ -44,8 +48,12 @@ class Caesar():
         return new_message
 
 """
-Funcion auxiliar que recorre un diccionario para hacer match con su valor en el texto que se quiere cifrar, esta funcion
-Sirve de la misma manera tanto en el cifrado como en el descifrado
+Funcion auxiliar que dado un texto, un diccionario, un alfabeto y una bandera hace el match del elemento en la osicion original con el elemento que esta en la posicion con desplazamiento; Esta funcion se sua tanto para cifrar como para decifrar:
+Parametros:
+- texto    : Es el texto que se queire cifrar o decifrar
+- dic      : Es el diccionario que ya se hizo con desplazamiento
+- alphabet : Es el alphabeto de la clase Caesar
+- flag     : Es la bandera que se pasa en la clase para respetar o no los espacios
 """    
 def match(texto,dic,alphabet,flag):
     new_message=""
